@@ -19,6 +19,7 @@ export class AuthService {
 
   async validation(email: string, password: string): Promise<TOKEN> {
     const user = await this.prisma.user.findUnique({ where: { email } });
+
     if (!user || !bcryptCompareSync(password, user?.password))
       throw new UnauthorizedException("Email ou Senha inválidos");
 
