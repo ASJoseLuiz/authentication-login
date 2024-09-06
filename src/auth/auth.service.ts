@@ -12,7 +12,7 @@ export class AuthService {
   private privateKeyConfig = this.configService.get<string>("JWT_PRIVATE_KEY");
 
   constructor(
-    private readonly jwt: JwtService,
+    private readonly jwt: JwtService, //
     private readonly prisma: PrismaService,
     private readonly configService: ConfigService<Env, true>
   ) {}

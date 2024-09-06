@@ -4,7 +4,7 @@ export const createAccountBodySchema = z.object({
   // instanciar o ZodValidation que implementa PipeTranform (validar dados do body)
   name: z.string(),
   email: z.string().email(),
-  password: z.string(),
+  password: z.string().min(4), //regex()
 });
 
 export const updatePasswordByEmail = z.object({

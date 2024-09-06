@@ -43,7 +43,7 @@ export class AccountController {
     @Body() body: GetAccountByEmail
   ): Promise<UserAccount> {
     const { email } = body;
-    return this.handleGetAccountByEmail({ email });
+    return await this.handleGetAccountByEmail({ email });
   }
 
   @Delete()
@@ -52,7 +52,7 @@ export class AccountController {
     @Body() body: GetAccountByEmail
   ): Promise<void> {
     const { email } = body;
-    this.accountService.deleteAccount(email);
+    await this.accountService.deleteAccount(email);
   }
 
   @Patch()
@@ -61,6 +61,6 @@ export class AccountController {
     @Body() body: UpdatePasswordByEmail
   ): Promise<void> {
     const { email, oldPassword, newPassword } = body;
-    this.accountService.updatePassword(email, oldPassword, newPassword);
+    await this.accountService.updatePassword(email, oldPassword, newPassword);
   }
 }

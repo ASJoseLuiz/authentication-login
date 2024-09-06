@@ -4,14 +4,14 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from "@nestjs/common";
-import { PrismaClient } from "@prisma/client";
 import { hash } from "bcryptjs";
 import { UserAccount } from "src/entities/user-account";
 import { compareSync as bcryptCompareSync } from "bcryptjs";
+import { PrismaService } from "src/prisma/prisma.service";
 
 @Injectable()
 export class AccountsService {
-  constructor(private readonly prisma: PrismaClient) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   public async saveAccount(
     name: string,
@@ -45,7 +45,7 @@ export class AccountsService {
 
   public async getAccountByEmail(email: string): Promise<UserAccount | null> {
     try {
-      return await this.prisma.user.findUnique({
+      return await this.prisma.user.findUniqueOrThrow({
         where: { email },
       });
     } catch (err) {
@@ -63,7 +63,9 @@ export class AccountsService {
 
   public async deleteAccount(email: string): Promise<void> {
     try {
-      const verifyUser = await this.getAccountByEmail(email);
+      const verifyUser = await this.prisma.user.findUnique({
+        where: { email },
+      });
       if (verifyUser) {
         await this.prisma.user.delete({ where: { email } });
         return;
@@ -76,23 +78,43 @@ export class AccountsService {
 
   public async updatePassword(
     email: string,
-    oldpassword: string,
+    oldPassword: string,
     newPassword: string
   ): Promise<void> {
     try {
       const verifyAccount = await this.getAccountByEmail(email);
-      if (
-        verifyAccount &&
-        bcryptCompareSync(oldpassword, verifyAccount?.password)
-      ) {
-        const hashedPassword = await hash(newPassword, 8);
-        this.prisma.user.update({
-          where: { email },
-          data: { password: hashedPassword },
-        });
+
+      if (!verifyAccount) {
+        throw new NotFoundException("Conta não encontrada");
       }
+
+      const isPasswordValid = bcryptCompareSync(
+        oldPassword,
+        verifyAccount.password
+      );
+
+      if (!isPasswordValid) {
+        throw new UnauthorizedException("Senha antiga incorreta");
+      }
+
+      const hashedPassword = await hash(newPassword, 8);
+
+      await this.prisma.user.update({
+        where: { email },
+        data: { password: hashedPassword },
+      });
+
+      // Opcional: Retornar uma mensagem de sucesso
+      console.log("Senha atualizada com sucesso");
     } catch (err) {
-      throw new UnauthorizedException();
+      if (
+        err instanceof UnauthorizedException ||
+        err instanceof NotFoundException
+      ) {
+        throw err; // Relança exceções específicas
+      }
+
+      throw new Error("Erro ao atualizar a senha"); // Erro genérico
     }
   }
 }
