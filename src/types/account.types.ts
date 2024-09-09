@@ -1,10 +1,14 @@
 import { z } from "zod";
 
 export const createAccountBodySchema = z.object({
-  // instanciar o ZodValidation que implementa PipeTranform (validar dados do body)
   name: z.string(),
   email: z.string().email(),
   password: z.string().min(4), //regex()
+});
+
+export const deleteAccountByEmail = z.object({
+  email: z.string().email(),
+  password: z.string(),
 });
 
 export const updatePasswordByEmail = z.object({
@@ -26,6 +30,8 @@ export const payloadBodySchema = z.object({
   sub: z.string(),
   email: z.string().email(),
 });
+
+export type DeleteAccountByEmail = z.infer<typeof deleteAccountByEmail>;
 
 export type UpdatePasswordByEmail = z.infer<typeof updatePasswordByEmail>;
 

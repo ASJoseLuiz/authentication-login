@@ -1,20 +1,5 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Patch,
-  Post,
-  UsePipes,
-} from "@nestjs/common";
-import {
-  createAccountBodySchema,
-  CreateAccountBodySchema,
-  getAccountByEmail,
-  GetAccountByEmail,
-  UpdatePasswordByEmail,
-  updatePasswordByEmail,
-} from "../types/account.types";
+import { Body, Controller, Get, UsePipes } from "@nestjs/common";
+import { getAccountByEmail, GetAccountByEmail } from "../types/account.types";
 import { ZodValidationPipe } from "src/pipes/zod.validation.pipe";
 import { AccountsService } from "src/accounts/account.service";
 import { UserAccount } from "src/entities/user-account";
@@ -28,15 +13,6 @@ export class AccountController {
     return await this.accountService.getAccounts();
   }
 
-  @Post()
-  @UsePipes(new ZodValidationPipe(createAccountBodySchema)) // validação do body
-  public async handlePost(
-    @Body() body: CreateAccountBodySchema
-  ): Promise<void> {
-    const { name, email, password } = body; //
-    await this.accountService.saveAccount(name, email, password);
-  }
-
   @Get()
   @UsePipes(new ZodValidationPipe(getAccountByEmail))
   public async handleGetAccountByEmail(
@@ -44,23 +20,5 @@ export class AccountController {
   ): Promise<UserAccount> {
     const { email } = body;
     return await this.handleGetAccountByEmail({ email });
-  }
-
-  @Delete()
-  @UsePipes(new ZodValidationPipe(getAccountByEmail))
-  public async handleDeleteAccountByEmail(
-    @Body() body: GetAccountByEmail
-  ): Promise<void> {
-    const { email } = body;
-    await this.accountService.deleteAccount(email);
-  }
-
-  @Patch()
-  @UsePipes(new ZodValidationPipe(updatePasswordByEmail))
-  public async handleUpdatePasswordByEmail(
-    @Body() body: UpdatePasswordByEmail
-  ): Promise<void> {
-    const { email, oldPassword, newPassword } = body;
-    await this.accountService.updatePassword(email, oldPassword, newPassword);
   }
 }

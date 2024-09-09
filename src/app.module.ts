@@ -9,6 +9,8 @@ import { JwtService } from "@nestjs/jwt";
 import { AuthService } from "./auth/auth.service";
 import { AccountsModule } from "./accounts/account.module";
 import { AccountsService } from "./accounts/account.service";
+import { UserConfigController } from "./controllers/user-config.controller";
+import { CreateAccountController } from "./controllers/create-account.controller";
 
 @Module({
   imports: [
@@ -19,7 +21,12 @@ import { AccountsService } from "./accounts/account.service";
     AuthModule,
     AccountsModule,
   ],
-  controllers: [AccountController, AuthenticateController],
+  controllers: [
+    AccountController,
+    AuthenticateController,
+    UserConfigController,
+    CreateAccountController,
+  ],
   providers: [PrismaService, JwtService, AuthService, AccountsService],
 })
 export class AppModule {}

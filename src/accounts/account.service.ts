@@ -61,16 +61,23 @@ export class AccountsService {
     }
   }
 
-  public async deleteAccount(email: string): Promise<void> {
+  public async deleteAccount(email: string, password: string): Promise<void> {
     try {
       const verifyUser = await this.prisma.user.findUnique({
         where: { email },
       });
-      if (verifyUser) {
-        await this.prisma.user.delete({ where: { email } });
-        return;
+      if (!verifyUser) {
+        throw new NotFoundException("Conta não encontrada");
       }
-      throw new NotFoundException();
+
+      const isPasswordValid = bcryptCompareSync(password, verifyUser.password);
+
+      if (!isPasswordValid) {
+        throw new UnauthorizedException("Senha incorreta");
+      }
+
+      await this.prisma.user.delete({ where: { email } });
+      console.log("Conta deletada com sucesso");
     } catch (err) {
       throw new Error(err);
     }
@@ -104,17 +111,9 @@ export class AccountsService {
         data: { password: hashedPassword },
       });
 
-      // Opcional: Retornar uma mensagem de sucesso
       console.log("Senha atualizada com sucesso");
     } catch (err) {
-      if (
-        err instanceof UnauthorizedException ||
-        err instanceof NotFoundException
-      ) {
-        throw err; // Relança exceções específicas
-      }
-
-      throw new Error("Erro ao atualizar a senha"); // Erro genérico
+      throw new Error("Erro ao atualizar a senha");
     }
   }
 }
