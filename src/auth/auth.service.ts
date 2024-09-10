@@ -5,7 +5,7 @@ import { TOKEN } from "./token.dto";
 import { compareSync as bcryptCompareSync } from "bcryptjs";
 import { ConfigService } from "@nestjs/config";
 import { Env } from "src/env";
-import { PayloadBodySchema } from "src/types/account.types";
+import { PayloadBodySchema } from "src/types/zod.types";
 
 @Injectable()
 export class AuthService {
