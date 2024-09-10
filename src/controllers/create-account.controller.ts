@@ -6,7 +6,7 @@ import {
   createAccountBodySchema,
 } from "src/types/account.types";
 
-@Controller("/create-account")
+@Controller("/home/create-account")
 export class CreateAccountController {
   constructor(private readonly accountService: AccountsService) {}
 

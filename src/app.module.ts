@@ -11,6 +11,7 @@ import { AccountsModule } from "./accounts/account.module";
 import { AccountsService } from "./accounts/account.service";
 import { UserConfigController } from "./controllers/user-config.controller";
 import { CreateAccountController } from "./controllers/create-account.controller";
+import { HomePageController } from "./controllers/home-page.controller";
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { CreateAccountController } from "./controllers/create-account.controller
     AuthenticateController,
     UserConfigController,
     CreateAccountController,
+    HomePageController,
   ],
   providers: [PrismaService, JwtService, AuthService, AccountsService],
 })

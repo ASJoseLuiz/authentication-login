@@ -8,7 +8,7 @@ import {
   updatePasswordByEmail,
 } from "src/types/account.types";
 
-@Controller("/user/config")
+@Controller("/home/sign-in/user/config")
 export class UserConfigController {
   constructor(private readonly accountService: AccountsService) {}
 
