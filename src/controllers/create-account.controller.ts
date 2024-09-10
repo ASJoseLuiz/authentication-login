@@ -4,7 +4,7 @@ import { ZodValidationPipe } from "src/pipes/zod.validation.pipe";
 import {
   CreateAccountBodySchema,
   createAccountBodySchema,
-} from "src/types/account.types";
+} from "src/types/zod.types";
 
 @Controller("/home/create-account")
 export class CreateAccountController {

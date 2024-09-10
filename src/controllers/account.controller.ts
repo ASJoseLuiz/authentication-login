@@ -6,7 +6,7 @@ import {
   Post,
   UsePipes,
 } from "@nestjs/common";
-import { getAccountByEmail, GetAccountByEmail } from "../types/account.types";
+import { getAccountByEmail, GetAccountByEmail } from "../types/zod.types";
 import { ZodValidationPipe } from "src/pipes/zod.validation.pipe";
 import { AccountsService } from "src/accounts/account.service";
 import { UserAccount } from "src/entities/user-account";

@@ -2,7 +2,7 @@ import { Body, Controller, Post, UsePipes } from "@nestjs/common";
 import { TOKEN } from "src/auth/token.dto";
 import { AuthService } from "src/auth/auth.service";
 import { ZodValidationPipe } from "src/pipes/zod.validation.pipe";
-import { SignInBodySchema, signInBodySchema } from "src/types/account.types";
+import { SignInBodySchema, signInBodySchema } from "src/types/zod.types";
 
 @Controller("/home/sign-in")
 export class AuthenticateController {

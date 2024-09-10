@@ -6,7 +6,7 @@ import {
   DeleteAccountByEmail,
   UpdatePasswordByEmail,
   updatePasswordByEmail,
-} from "src/types/account.types";
+} from "src/types/zod.types";
 
 @Controller("/home/sign-in/user/config")
 export class UserConfigController {
