@@ -36,8 +36,8 @@ export class AuthService {
           email: payload.email,
         },
         {
-          privateKey: this.privateKeyConfig,
-          expiresIn: "200",
+          secret: this.privateKeyConfig,
+          expiresIn: "3600",
         }
       ),
     };

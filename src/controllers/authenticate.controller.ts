@@ -4,7 +4,7 @@ import { AuthService } from "src/auth/auth.service";
 import { ZodValidationPipe } from "src/pipes/zod.validation.pipe";
 import { SignInBodySchema, signInBodySchema } from "src/types/account.types";
 
-@Controller("/sessions")
+@Controller("/home/sessions")
 export class AuthenticateController {
   constructor(private authService: AuthService) {}
 

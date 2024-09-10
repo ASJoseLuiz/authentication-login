@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Patch, UsePipes } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Patch,
+  UseGuards,
+  UsePipes,
+} from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
 import { AccountsService } from "src/accounts/account.service";
 import { ZodValidationPipe } from "src/pipes/zod.validation.pipe";
 import {
@@ -9,6 +17,7 @@ import {
 } from "src/types/account.types";
 
 @Controller("/user/config")
+@UseGuards(AuthGuard("jwt"))
 export class UserConfigController {
   constructor(private readonly accountService: AccountsService) {}
 

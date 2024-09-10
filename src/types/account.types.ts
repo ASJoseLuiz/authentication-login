@@ -31,6 +31,10 @@ export const payloadBodySchema = z.object({
   email: z.string().email(),
 });
 
+export const tokenSchema = z.object({
+  sub: z.string().uuid(),
+});
+
 export type DeleteAccountByEmail = z.infer<typeof deleteAccountByEmail>;
 
 export type UpdatePasswordByEmail = z.infer<typeof updatePasswordByEmail>;
@@ -42,3 +46,5 @@ export type PayloadBodySchema = z.infer<typeof payloadBodySchema>;
 export type SignInBodySchema = z.infer<typeof signInBodySchema>;
 
 export type CreateAccountBodySchema = z.infer<typeof createAccountBodySchema>;
+
+export type TokenSchema = z.infer<typeof tokenSchema>;
